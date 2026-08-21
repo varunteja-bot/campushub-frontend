@@ -61,54 +61,85 @@ export async function markAttendance(subjectCode, status) {
 }
 
 export async function fetchTimetable() {
-  const res = await fetch('/api/timetable');
+  const res = await fetch(`${API_BASE_URL}/api/timetable`);
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch timetable: ${res.status}`);
+  }
+
   return res.json();
 }
 
 export async function fetchMarks() {
-  const res = await fetch('/api/marks');
+  const res = await fetch(`${API_BASE_URL}/api/marks`);
   return res.json();
 }
 
 export async function addSubjectMarks(subjectCode, subjectName, internalMarks, endSemMarks) {
-  const res = await fetch('/api/marks/add', {
+  const res = await fetch(`${API_BASE_URL}/api/marks/add`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ subjectCode, subjectName, internalMarks, endSemMarks })
+    body: JSON.stringify({
+      subjectCode,
+      subjectName,
+      internalMarks,
+      endSemMarks
+    })
   });
+
   const data = await res.json();
-  if (!res.ok) throw new Error(data.error || 'Failed to add/update marks');
+
+  if (!res.ok) {
+    throw new Error(data.error || 'Failed to add/update marks');
+  }
+
   return data;
 }
 
 export async function fetchNotices() {
-  const res = await fetch('/api/notices');
+  const res = await fetch(`${API_BASE_URL}/api/notices`);
   return res.json();
 }
 
 export async function postNotice(title, content, category, author, isImportant) {
-  const res = await fetch('/api/notices/add', {
+  const res = await fetch(`${API_BASE_URL}/api/notices/add`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ title, content, category, author, isImportant })
+    body: JSON.stringify({
+      title,
+      content,
+      category,
+      author,
+      isImportant
+    })
   });
+
   const data = await res.json();
-  if (!res.ok) throw new Error(data.error || 'Failed to post notice');
+
+  if (!res.ok) {
+    throw new Error(data.error || 'Failed to post notice');
+  }
+
   return data;
 }
 
 export async function fetchStudentProfile() {
-  const res = await fetch('/api/student/profile');
+  const res = await fetch(`${API_BASE_URL}/api/student/profile`);
   return res.json();
 }
 
 export async function updateStudentProfile(phone, address) {
-  const res = await fetch('/api/student/profile', {
+  const res = await fetch(`${API_BASE_URL}/api/student/profile`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ phone, address })
   });
+
   const data = await res.json();
-  if (!res.ok) throw new Error(data.error || 'Failed to update profile');
+
+  if (!res.ok) {
+    throw new Error(data.error || 'Failed to update profile');
+  }
+
   return data;
 }
