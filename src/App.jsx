@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { API_BASE_URL } from './services/api';
+export const API_BASE_URL = 'https://campushub-backend-2-x8qm.onrender.com';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
@@ -31,19 +32,19 @@ function MainAppShell() {
   });
 
   useEffect(() => {
-    fetch('/api/health')
-      .then((res) => res.json())
-      .then((data) => setBackendStatus(data.status))
-      .catch(() => setBackendStatus('offline'));
+  fetch(`${API_BASE_URL}/api/health`)
+    .then((res) => res.json())
+    .then((data) => setBackendStatus(data.status))
+    .catch(() => setBackendStatus('offline'));
 
-    fetch('/api/student/overview')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.student) setStudentInfo(data.student);
-        if (data.metrics) setMetrics(data.metrics);
-      })
-      .catch(() => {});
-  }, []);
+  fetch(`${API_BASE_URL}/api/student/overview`)
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.student) setStudentInfo(data.student);
+      if (data.metrics) setMetrics(data.metrics);
+    })
+    .catch(() => {});
+}, []);
 
   if (loading) {
     return (
