@@ -1,5 +1,5 @@
 // CampusHub API Helper Service
-const API_BASE_URL = 'https://campushub-backend-2-x8qm.onrender.com';
+export const API_BASE_URL = 'https://campushub-backend-2-x8qm.onrender.com';
 export async function fetchHealth() {
   const res = await fetch(`${API_BASE_URL}/api/health`);
   return res.json();
