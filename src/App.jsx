@@ -1,5 +1,4 @@
 import { API_BASE_URL } from './services/api';
-export const API_BASE_URL = 'https://campushub-backend-2-x8qm.onrender.com';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
