@@ -33,18 +33,30 @@ export async function fetchStudentOverview() {
 }
 
 export async function fetchAttendance() {
-  const res = await fetch('/api/attendance');
+  const res = await fetch(`${API_BASE_URL}/api/attendance`);
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch attendance: ${res.status}`);
+  }
+
   return res.json();
 }
 
 export async function markAttendance(subjectCode, status) {
-  const res = await fetch('/api/attendance/mark', {
+  const res = await fetch(`${API_BASE_URL}/api/attendance/mark`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify({ subjectCode, status })
   });
+
   const data = await res.json();
-  if (!res.ok) throw new Error(data.error || 'Failed to mark attendance');
+
+  if (!res.ok) {
+    throw new Error(data.error || 'Failed to mark attendance');
+  }
+
   return data;
 }
 
