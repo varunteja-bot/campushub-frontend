@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { loginUser, fetchCurrentUser } from '../services/api';
+import { loginUser, signupUser, fetchCurrentUser } from '../services/api';
 
 const AuthContext = createContext();
 
@@ -34,7 +34,24 @@ export function AuthProvider({ children }) {
     setUser(data.user);
     return data;
   };
+  const signup = async (name, email, password, rollNo, department, semester, phone, address) => {
+    const data = await signupUser(
+      name,
+      email,
+      password,
+      rollNo,
+      department,
+      semester,
+      phone,
+      address
+    );
 
+    localStorage.setItem('campushub_token', data.token);
+    setToken(data.token);
+    setUser(data.user);
+
+    return data;
+  };
   const logout = () => {
     localStorage.removeItem('campushub_token');
     setToken(null);
@@ -42,7 +59,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, isAuthenticated: !!token && !!user, loading, login, logout, setUser }}>
+    <AuthContext.Provider value={{ user, token, isAuthenticated: !!token && !!user, loading, login, signup, logout, setUser }}>
       {children}
     </AuthContext.Provider>
   );
