@@ -72,6 +72,11 @@ export async function fetchTimetable() {
 
 export async function fetchMarks() {
   const res = await fetch(`${API_BASE_URL}/api/marks`);
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch marks: ${res.status}`);
+  }
+
   return res.json();
 }
 
@@ -95,9 +100,13 @@ export async function addSubjectMarks(subjectCode, subjectName, internalMarks, e
 
   return data;
 }
-
 export async function fetchNotices() {
   const res = await fetch(`${API_BASE_URL}/api/notices`);
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch notices: ${res.status}`);
+  }
+
   return res.json();
 }
 
